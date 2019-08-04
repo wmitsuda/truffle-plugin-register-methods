@@ -15,9 +15,6 @@ const registryAddress = "0x44691B39d1a75dC4E0A0346CBB15E310e6ED1E86";
 const registryContract = new web3.eth.Contract(RegistryABI, registryAddress);
 
 module.exports = async config => {
-  // console.log(config);
-  // console.log("*****************************");
-
   // TODO: validate missing contract name
   const contractName = config._[1];
   console.log(`Contract name: ${contractName}`);
@@ -31,11 +28,11 @@ module.exports = async config => {
 
   const contractJson = require(contractFile);
   const { abi } = contractJson;
-  // console.log(abi);
 
   console.log("\nGetting contract functions...");
   const functions = abi.filter(f => f.type === "function");
 
+  const registrations = [];
   for (let f of functions) {
     if (f.constant) {
       console.log(`${f.name} => constant, skipping`);
@@ -53,11 +50,20 @@ module.exports = async config => {
         console.log(
           `\tMethod not found in the registry, trying to register...`
         );
-        await tryToRegister(signature, defaultAccount);
+
+        const promievent = tryToRegister(signature, defaultAccount);
+        registrations.push(promievent);
       }
     }
   }
 
+  console.log("\n****************************");
+  if (registrations.length === 0) {
+    console.log("No registrations where submitted");
+  } else {
+    console.log("Waiting for registration transactions to complete...");
+    await Promise.all(registrations);
+  }
   provider.engine.stop();
 };
 
@@ -81,10 +87,11 @@ const buildMethodSignature = f => {
   return { signature, selector };
 };
 
-const tryToRegister = async (signature, fromAccount) => {
-  const accounts = web3.eth.getAccounts();
-  const x = await registryContract.methods
+const tryToRegister = (signature, fromAccount) => {
+  return registryContract.methods
     .register(signature)
-    .send({ from: fromAccount });
-  console.log(x);
+    .send({ from: fromAccount })
+    .on("transactionHash", txhash => {
+      console.log(`\tTX: https://etherscan.io/tx/${txhash}`);
+    });
 };
