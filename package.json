@@ -10,6 +10,9 @@
   "author": "Willian Mitsuda <wmitsuda@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "eth-method-registry": "^1.2.0",
+    "truffle-hdwallet-provider": "^1.0.15",
     "web3": "^1.2.0"
   }
 }
