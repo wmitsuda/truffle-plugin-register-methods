@@ -17,6 +17,10 @@ const registryContract = new web3.eth.Contract(RegistryABI, registryAddress);
 module.exports = async config => {
   // TODO: validate missing contract name
   const contractName = config._[1];
+  if (!contractName) {
+    console.log("Usage: truffle run register-methods <contract-name>");
+    process.exit(1);
+  }
   console.log(`Contract name: ${contractName}`);
 
   const buildDirectory = config.contracts_build_directory;
