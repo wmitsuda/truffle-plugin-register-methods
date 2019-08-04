@@ -9,10 +9,6 @@ const provider = new HDWalletProvider(
 const Web3 = require("web3");
 const web3 = new Web3(provider);
 
-// Initialize method registry
-const MethodRegistry = require("eth-method-registry");
-const registry = new MethodRegistry(provider);
-
 // Initialize method registry contract
 const RegistryABI = require("./abi/registry.json");
 const registryAddress = "0x44691B39d1a75dC4E0A0346CBB15E310e6ED1E86";
@@ -50,7 +46,6 @@ module.exports = async config => {
       console.log(`\tSignature: ${signature}`);
       console.log(`\tSelector: ${selector}`);
 
-      // const result = await registry.lookup(selector);
       const result = await registryContract.methods.entries(selector).call();
       if (result) {
         console.log(`\tMethod found in the registry, skipping`);
