@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const HDWalletProvider = require("truffle-hdwallet-provider");
 const provider = new HDWalletProvider(
   process.env.TRUFFLE_PLUGIN_MNEMONIC,
@@ -32,6 +34,10 @@ module.exports = async config => {
     `Using the following ETH account for registration: ${defaultAccount}`
   );
 
+  if (!fs.existsSync(contractFile)) {
+    console.log(`Contract build artifact does not exist: ${contractFile}`);
+    process.exit(1);
+  }
   const contractJson = require(contractFile);
   const { abi } = contractJson;
 
