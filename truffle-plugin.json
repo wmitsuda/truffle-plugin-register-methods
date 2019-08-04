@@ -1,0 +1,5 @@
+{
+  "commands": {
+    "register-methods": "plugin.js"
+  }
+}
