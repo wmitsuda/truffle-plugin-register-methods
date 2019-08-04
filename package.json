@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Willian Mitsuda <wmitsuda@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "web3": "^1.2.0"
+  }
 }
