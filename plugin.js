@@ -24,7 +24,9 @@ module.exports = async config => {
   console.log(`Reading contract file: ${contractFile}`);
 
   const defaultAccount = await getDefaultAccount();
-  console.log(`Using ETH account for registration: ${defaultAccount}`);
+  console.log(
+    `Using the following ETH account for registration: ${defaultAccount}`
+  );
 
   const contractJson = require(contractFile);
   const { abi } = contractJson;
@@ -59,10 +61,13 @@ module.exports = async config => {
 
   console.log("\n****************************");
   if (registrations.length === 0) {
-    console.log("No registrations where submitted");
+    console.log(
+      "No method registrations where found to be necessary, everything is fine! 🎉🎉🎉🎉🎉"
+    );
   } else {
     console.log("Waiting for registration transactions to complete...");
     await Promise.all(registrations);
+    console.log("Registration complete! 🎉🎉🎉🎉🎉");
   }
   provider.engine.stop();
 };
@@ -92,6 +97,6 @@ const tryToRegister = (signature, fromAccount) => {
     .register(signature)
     .send({ from: fromAccount })
     .on("transactionHash", txhash => {
-      console.log(`\tTX: https://etherscan.io/tx/${txhash}`);
+      console.log(`\t${signature} => https://etherscan.io/tx/${txhash}`);
     });
 };
