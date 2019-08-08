@@ -1,6 +1,8 @@
 # Overview
 
-This plugins allows truffle to scan your contract build artifacts for non-constant methods and register them in the Parity Signature Registry smart contract.
+> 🏆 1st Place Winner of TruffleCon 2019 Hackathon!!! 🎉🎉🎉
+
+This plugin allows truffle to scan your contract build artifacts for non-constant methods and register them in the Parity Signature Registry smart contract.
 
 By doing this, web3 browsers can use this information to show some user friendly info to the user when calling contract methods.
 
