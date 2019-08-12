@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-1. Create a project in Infura and get your own endpoint URL for Ropsten network. You'll need it later for deploying your sample contract.
+1. Create a project in https://infura.io and get your own endpoint URL for Ropsten network. You'll need it later for deploying your sample contract.
 
 2. Get a seedphrase for a Ropsten account with some testnet ETH. You'll need it to pay for the gas for contract deployment.
 
@@ -47,10 +47,12 @@ Add a file called `HelloWorld.sol` inside `./contracts` directory with the follo
 pragma solidity ^0.5;
 
 contract HelloWorld {
-    function hello(address someAddress, uint256 someValue) public {
+    function <RANDOM-FUNCTION-NAME>(address someAddress, uint256 someValue) public {
     }
 }
 ```
+
+> Replace <RANDOM-FUNCTION-NAME> with some random valid solidity function name. Ensure to give it some random name as it may colide with other names from other users following this tutorial.
 
 Replace the **entire** contents of `./migrations/1_initial_migration.js` file with the following:
 
@@ -95,45 +97,6 @@ It should output something like this:
 
 Take note of the contract address, we'll use it to test if the function registration was successful.
 
-Now go to the https://oneclickdapp.com and create a sample dapp to interact with our just deployed contract.
-
-In the address field, paste the address from truffle output. In the interface ABI, paste the HelloWorld  contract ABI. You should be able to get it easily from the compiled artifacts by running:
-
-```sh
-$ cat build/contracts/HelloWorld.json | jq ".abi"
-```
-
-The configuration should look like this:
-
-![oneclickdapp-creation](docs/oneclickdapp-creation.png)
-
-Finish the dapp creation and you should see a simple UI where you can call the `hello` method from the smart contract with some parameters. Enter some random values and call `Sign and Submit`:
-
-![oneclickdapp-send](docs/oneclickdapp-send.png)
-
-Metamask should display a popup with the `hello` method name, even though we had not registered anything yet with the plugin. That is because I have already done it myself before for this tutorial 😃
-
-![oneclickdapp-send](docs/oneclickdapp-send-hello.png)
-
-Now let's see the plugin in action. First, open the `HelloWorld.sol` file and change the `hello` function name to something totally random, in my example I'll try `hello_world_23123`.
-
-Let's recompile and redeploy every from scratch:
-
-```
-$ npx truffle compile
-$ npx truffle migrate --network ropsten --reset
-```
-
-You'll get another contract address since we'd redeployed the HelloWorld contract from scratch. Create another dapp from scratch using oneclickdapp, note that the contract address and ABI will be different this time.
-
-You should get something like this:
-
-![oneclickdapp-send](docs/oneclickdapp-send-random.png)
-
-And if you sign and submit and function, the function name will not be recognized, you'll get a generic "Contract Interaction" message:
-
-![oneclickdapp-send](docs/oneclickdapp-send-hello-random.png)
-
 Let's now register our function signature in Mainnet. For this to happen we'll have to spend some real ETH to pay the gas.
 
 Export a seed phrase with some small amount of ETH as an environment variable called `TRUFFLE_PLUGIN_MNEMONIC` and run the plugin:
@@ -142,6 +105,8 @@ Export a seed phrase with some small amount of ETH as an environment variable ca
 $ export TRUFFLE_PLUGIN_MNEMONIC="<YOUR-SECRET-MAINNET-MNEMONIC-HERE>"
 $ npx truffle run register-methods HelloWorld
 ```
+
+> Replace `<YOUR-SECRET-MAINNET-MNEMONIC-HERE>` with your Mainnet seedphrase.
 
 In case of success it should output something like this:
 
@@ -160,5 +125,24 @@ Registration complete! 🎉🎉🎉🎉🎉
 
 > The plugin will scan all non-constant function in the smart contract, calculate the function selector, check if it is already registered, and if it is not, try to register it.
 
-Now if we try to call the function again in oneclickdapp, we should see the name is resolved (you may need to restart the browser for Metamask to recognize the change):
+Now go to the https://oneclickdapp.com and create a sample dapp to interact with our just deployed contract.
 
+In the address field, paste the address from truffle output. In the interface ABI, paste the HelloWorld  contract ABI. You should be able to get it easily from the compiled artifacts by running:
+
+```sh
+$ cat build/contracts/HelloWorld.json | jq ".abi"
+```
+
+The configuration should look like this:
+
+![oneclickdapp-creation](docs/oneclickdapp-creation.png)
+
+Finish the dapp creation and you should see a simple UI where you can call your function from the smart contract with some parameters. Enter some random values and call `Sign and Submit`:
+
+![oneclickdapp-send](docs/oneclickdapp-send-random.png)
+
+Metamask should display a popup with your function name and some parameter details in the data tab:
+
+![oneclickdapp-send](docs/oneclickdapp-send-hello-random1.png)
+
+![oneclickdapp-send](docs/oneclickdapp-send-hello-random2.png)
