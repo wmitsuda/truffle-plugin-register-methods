@@ -3,8 +3,7 @@ const fs = require("fs");
 const HDWalletProvider = require("truffle-hdwallet-provider");
 const provider = new HDWalletProvider(
   process.env.TRUFFLE_PLUGIN_MNEMONIC,
-  "https://mainnet.infura.io/v3/26572f44518b42b4b1fd44ccfe9a5192",
-  1
+  "https://mainnet.infura.io/v3/26572f44518b42b4b1fd44ccfe9a5192"
 );
 
 // Initialize web3 connecting directly to mainnet
@@ -17,7 +16,6 @@ const registryAddress = "0x44691B39d1a75dC4E0A0346CBB15E310e6ED1E86";
 const registryContract = new web3.eth.Contract(RegistryABI, registryAddress);
 
 module.exports = async config => {
-  // TODO: validate missing contract name
   const contractName = config._[1];
   if (!contractName) {
     console.log("Usage: truffle run register-methods <contract-name>");
