@@ -86,14 +86,7 @@ const getDefaultAccount = async () => {
 };
 
 const buildMethodSignature = f => {
-  let params = "";
-  f.inputs.forEach((input, idx) => {
-    if (idx > 0) {
-      params = params.concat(",");
-    }
-    params = params.concat(input.type);
-  });
-
+  const params = f.inputs.map(input => input.type).join(',');
   const signature = `${f.name}(${params})`;
   const selector = web3.utils.keccak256(signature).substring(0, 10);
 
