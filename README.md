@@ -26,4 +26,4 @@ $ npx truffle run register-methods <contract-name>
 
 # Usage
 
-For a more long explanation, see [usage](USAGE.md)
+For a more detailed explanation, see [usage](USAGE.md).

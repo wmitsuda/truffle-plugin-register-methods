@@ -1,6 +1,16 @@
-# Usage Tutorial
+# Usage
 
-Let's create a sample truffle project containing a Hello World contract and register its methods using this plugin.
+## Prerequisites
+
+1. Create a project in Infura and get your own endpoint URL for Ropsten network. You'll need it later for deploying your sample contract.
+
+2. Get a seedphrase for a Ropsten account with some testnet ETH. You'll need it to pay for the gas for contract deployment.
+
+3. Get a seedphrase for a Mainnet account with some real ETH. You'll need it to pay for the gas for method signature registration.
+
+## Tutorial
+
+Let's create a sample truffle project containing a `HelloWorld` contract and register its methods using this plugin.
 
 > We'll deploy the artifacts on Ropsten testnet, but register the functions in Mainnet since this is where Metamask always read metadata from according to their documentation.
 
@@ -21,7 +31,7 @@ plugins: ["truffle-plugin-register-methods"]
 
 Add the following configuration for Ropsten network inside the `networks` section:
 
-```json
+```js
 ropsten: {
     provider: () => new HDWalletProvider(process.env.ROPSTEN_MNEMONIC, `<YOUR-ROPSTEN-ENDPOINT>`),
     network_id: 3,
@@ -29,7 +39,7 @@ ropsten: {
 },
 ```
 
-> Create a project in Infura and get your own endpoint URL for Ropsten network. Paste it into `<YOUR-ROPSTEN-NETWORK>`. Don't forget the `https://` prefix!
+> Replace `<YOUR-ROPSTEN-NETWORK>` with your Infura Ropsten endpoint. Don't forget the `https://` prefix!
 
 Add a file called `HelloWorld.sol` inside `./contracts` directory with the following contents:
 
@@ -52,11 +62,13 @@ module.exports = function(deployer) {
 };
 ```
 
-Export your Ropsten network secret mnemonic phrase into an environment variable called `ROPSTEN_MNEMONIC`:
+Export your Ropsten seedphrase as an environment variable:
 
 ```sh
 $ export ROPSTEN_MNEMONIC="<YOUR-SECRET-ROPSTEN-MNEMONIC-HERE>"
 ```
+
+> Replace `<YOUR-SECRET-ROPSTEN-MNEMONIC-HERE>` with your Ropsten seedphrase.
 
 Compile and deploy:
 
