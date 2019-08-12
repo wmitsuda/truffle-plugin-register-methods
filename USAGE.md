@@ -2,17 +2,17 @@
 
 ## Prerequisites
 
-1. Create a project in https://infura.io and get your own endpoint URL for Ropsten network. You'll need it later for deploying your sample contract.
+1. Create a project in https://infura.io and get your own endpoint URL for ropsten testnet. You'll need it later for deploying your sample contract.
 
-2. Get a seedphrase for a Ropsten account with some testnet ETH. You'll need it to pay for the gas for contract deployment.
+2. Get a seedphrase for a ropsten account with some testnet ETH. You'll need it to pay for the gas for contract deployment.
 
-3. Get a seedphrase for a Mainnet account with some real ETH. You'll need it to pay for the gas for method signature registration.
+3. Get a seedphrase for a mainnet account with some real ETH. You'll need it to pay for the gas for method signature registration.
 
 ## Tutorial
 
 Let's create a sample truffle project containing a `HelloWorld` contract and register its methods using this plugin.
 
-> We'll deploy the artifacts on Ropsten testnet, but register the functions in Mainnet since this is where Metamask always read metadata from according to their documentation.
+> We'll deploy the contract on ropsten testnet, but register the functions on mainnet since this is where Metamask always read metadata from according to their documentation.
 
 First, let's create the truffle project:
 
@@ -29,7 +29,7 @@ Edit the `truffle-config.js` file and add the following configuration to `module
 plugins: ["truffle-plugin-register-methods"]
 ```
 
-Add the following configuration for Ropsten network inside the `networks` section:
+Add the following configuration for ropsten testnet inside the `networks` section:
 
 ```js
 ropsten: {
@@ -39,7 +39,7 @@ ropsten: {
 },
 ```
 
-> Replace `<YOUR-ROPSTEN-NETWORK>` with your Infura Ropsten endpoint. Don't forget the `https://` prefix!
+> Replace `<YOUR-ROPSTEN-NETWORK>` with your Infura's ropsten endpoint. Don't forget the `https://` prefix!
 
 Add a file called `HelloWorld.sol` inside `./contracts` directory with the following contents:
 
@@ -52,7 +52,7 @@ contract HelloWorld {
 }
 ```
 
-> Replace <RANDOM-FUNCTION-NAME> with some random valid solidity function name. Ensure to give it some random name as it may colide with other names from other users following this tutorial.
+> Replace `<RANDOM-FUNCTION-NAME>` with some random valid solidity function name. Ensure to give it some random name as it may colide with other names from other users following this tutorial.
 
 Replace the **entire** contents of `./migrations/1_initial_migration.js` file with the following:
 
@@ -64,13 +64,13 @@ module.exports = function(deployer) {
 };
 ```
 
-Export your Ropsten seedphrase as an environment variable:
+Export your ropsten seedphrase as an environment variable:
 
 ```sh
 $ export ROPSTEN_MNEMONIC="<YOUR-SECRET-ROPSTEN-MNEMONIC-HERE>"
 ```
 
-> Replace `<YOUR-SECRET-ROPSTEN-MNEMONIC-HERE>` with your Ropsten seedphrase.
+> Replace `<YOUR-SECRET-ROPSTEN-MNEMONIC-HERE>` with your ropsten seedphrase.
 
 Compile and deploy:
 
@@ -92,21 +92,21 @@ It should output something like this:
    > contract address:    0x6A1Fc3592615EdB286108a932b99F251bC9aE104
    > block number:        6172577
 
-<other not important stuff...>
+<other unimportant stuff...>
 ```
 
 Take note of the contract address, we'll use it to test if the function registration was successful.
 
-Let's now register our function signature in Mainnet. For this to happen we'll have to spend some real ETH to pay the gas.
+Let's now register our function signature in mainnet. For this to happen we'll have to spend some real ETH to pay for the gas.
 
-Export a seed phrase with some small amount of ETH as an environment variable called `TRUFFLE_PLUGIN_MNEMONIC` and run the plugin:
+Export a seedphrase with some small amount of ETH as an environment variable called `TRUFFLE_PLUGIN_MNEMONIC` and run the plugin:
 
 ```sh
 $ export TRUFFLE_PLUGIN_MNEMONIC="<YOUR-SECRET-MAINNET-MNEMONIC-HERE>"
 $ npx truffle run register-methods HelloWorld
 ```
 
-> Replace `<YOUR-SECRET-MAINNET-MNEMONIC-HERE>` with your Mainnet seedphrase.
+> Replace `<YOUR-SECRET-MAINNET-MNEMONIC-HERE>` with your mainnet seedphrase.
 
 In case of success it should output something like this:
 
